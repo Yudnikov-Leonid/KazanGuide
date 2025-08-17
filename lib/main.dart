@@ -1,20 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:kazan_guide/core/app.dart';
 
 void main() {
-  runApp(const MainApp());
-}
+  runZonedGuarded(() async {
+    // WidgetsFlutterBinding.ensureInitialized().deferFirstFrame();
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+    runApp(const App());
+  }, (error, st) {
+    /// TODO on error
+  });
 }
