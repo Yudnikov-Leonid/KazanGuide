@@ -10,6 +10,15 @@ class RouteData {
     required this.routeDescription,
     required this.points,
   });
+
+  factory RouteData.fromJson(Map<String, dynamic> json) => RouteData(
+      routeName: json['route_name'],
+      routeDescription: json['route_description'],
+      points:
+          (json['points'] as List<dynamic>)
+              .map((e) => RoutePointData.fromJson(e))
+              .toList(),
+    );
 }
 
 class RoutePointData {
@@ -24,4 +33,11 @@ class RoutePointData {
     required this.shortDescription,
     required this.fullDescription,
   });
+
+  factory RoutePointData.fromJson(Map<String, dynamic> json) => RoutePointData(
+      pointName: json['name'],
+      latLng: LatLng(json['lat'], json['long']),
+      shortDescription: json['short_description'],
+      fullDescription: json['full_description'],
+    );
 }

@@ -15,12 +15,12 @@ sealed class AppPage extends MaterialPage<void> {
 }
 
 final class MainPage extends AppPage {
-  MainPage()
+  const MainPage()
     : super(
         name: "main",
         arguments: null,
         child: const MainScreen(),
-        key: ValueKey("main"),
+        key: const ValueKey("main"),
       );
 }
 
@@ -30,6 +30,6 @@ final class RouteDetailsPage extends AppPage {
         name: "route_details",
         arguments: {"route": route},
         child: const MainScreen(),
-        key: ValueKey("route_details"),
+        key: const ValueKey("route_details"),
       );
 }

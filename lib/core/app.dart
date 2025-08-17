@@ -14,7 +14,7 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-    _navigator = AppNavigator(initialState: [MainPage()]);
+    _navigator = const AppNavigator(initialState: [MainPage()]);
     super.initState();
   }
 

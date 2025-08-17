@@ -1,4 +1,4 @@
-package com.example.kazan_guide
+package com.kazanGuide.kazanGuide
 
 import io.flutter.embedding.android.FlutterActivity
 
