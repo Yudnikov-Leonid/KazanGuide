@@ -2,33 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
 
 class TripleAppBar extends AppBar {
-  TripleAppBar(BuildContext context, {required String title, super.key})
-    : super(
-        leading: Container(
-          color: AppColors.green,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 9, bottom: 4),
-            child: Image.asset(
-              'assets/images/ornament.png',
-              color: Colors.white,
-            ),
-          ),
-        ),
-        leadingWidth: MediaQuery.sizeOf(context).width / 3,
-        actions: [
-          Container(
-            color: AppColors.red,
-            width: MediaQuery.sizeOf(context).width / 3,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 9, bottom: 4),
-              child: Image.asset(
-                'assets/images/ornament.png',
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-        centerTitle: true,
-        title: Text(title),
-      );
+  TripleAppBar(
+    BuildContext context, {
+    required String title,
+    GestureTapCallback? leadingFunction,
+    super.key,
+  }) : super(
+         leading: InkWell(
+           onTap: leadingFunction,
+           child: Container(
+             color: AppColors.green,
+             child: Padding(
+               padding: const EdgeInsets.only(top: 9, bottom: 4),
+               child: Image.asset(
+                 'assets/images/ornament.png',
+                 color: Colors.white,
+               ),
+             ),
+           ),
+         ),
+         leadingWidth: MediaQuery.sizeOf(context).width * 0.25,
+         actions: [
+           Container(
+             color: AppColors.red,
+             width: MediaQuery.sizeOf(context).width * 0.25,
+             child: Padding(
+               padding: const EdgeInsets.only(top: 9, bottom: 4),
+               child: Image.asset(
+                 'assets/images/ornament.png',
+                 color: Colors.white,
+               ),
+             ),
+           ),
+         ],
+         centerTitle: true,
+         title: Text(title),
+       );
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
+import 'package:kazan_guide/core/navigation/app_navigator.dart';
+import 'package:kazan_guide/core/navigation/pages.dart';
 import 'package:kazan_guide/core/presentation/KButton.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
@@ -55,25 +57,30 @@ class MainScreen extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item(this.data);
+  const _Item(this.route);
 
-  final RouteData data;
+  final RouteData route;
 
   @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      Container(
-        width: double.infinity,
-        color: AppColors.red,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-          child: Text(
-            data.routeName,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+  Widget build(BuildContext context) => InkWell(
+    onTap: () {
+      AppNavigator.push(context, RouteDetailsPage(route));
+    },
+    child: Column(
+      children: [
+        Container(
+          width: double.infinity,
+          color: AppColors.red,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+            child: Text(
+              route.routeName,
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
           ),
         ),
-      ),
-      Container(height: 180, color: Colors.amber),
-    ],
+        Container(height: 180, color: Colors.amber),
+      ],
+    ),
   );
 }

@@ -1,24 +1,27 @@
 import 'package:latlong2/latlong.dart';
 
 class RouteData {
+  final String id;
   final String routeName;
   final String routeDescription;
   final List<RoutePointData> points;
 
   RouteData({
+    required this.id,
     required this.routeName,
     required this.routeDescription,
     required this.points,
   });
 
   factory RouteData.fromJson(Map<String, dynamic> json) => RouteData(
-      routeName: json['route_name'],
-      routeDescription: json['route_description'],
-      points:
-          (json['points'] as List<dynamic>)
-              .map((e) => RoutePointData.fromJson(e))
-              .toList(),
-    );
+    id: json['id'],
+    routeName: json['route_name'],
+    routeDescription: json['route_description'],
+    points:
+        (json['points'] as List<dynamic>)
+            .map((e) => RoutePointData.fromJson(e))
+            .toList(),
+  );
 }
 
 class RoutePointData {
@@ -35,9 +38,9 @@ class RoutePointData {
   });
 
   factory RoutePointData.fromJson(Map<String, dynamic> json) => RoutePointData(
-      pointName: json['name'],
-      latLng: LatLng(json['lat'], json['long']),
-      shortDescription: json['short_description'],
-      fullDescription: json['full_description'],
-    );
+    pointName: json['name'],
+    latLng: LatLng(json['lat'], json['long']),
+    shortDescription: json['short_description'],
+    fullDescription: json['full_description'],
+  );
 }
