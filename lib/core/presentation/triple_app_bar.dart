@@ -36,6 +36,6 @@ class TripleAppBar extends AppBar {
            ),
          ],
          centerTitle: true,
-         title: Text(title),
+         title: FittedBox(child: Text(title)),
        );
 }
