@@ -3,6 +3,7 @@ import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/core/navigation/app_navigator.dart';
 import 'package:kazan_guide/core/navigation/pages.dart';
 import 'package:kazan_guide/core/presentation/KButton.dart';
+import 'package:kazan_guide/core/presentation/photo_view.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 
 class RouteDetailsScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class RouteDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    backgroundColor: Colors.white,
     appBar: TripleAppBar(
       context,
       title: route.routeName,
@@ -21,29 +23,40 @@ class RouteDetailsScreen extends StatelessWidget {
     ),
     body: Padding(
       padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          Container(height: 200, color: Colors.amber),
-          const SizedBox(height: 20),
-          Text(
-            route.routeDescription,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-          ),
-          const SizedBox(height: 50),
-          KButton(
-            onPressed: () {
-              AppNavigator.push(context, MapPage(route));
-            },
-            child: const SizedBox(
-              width: 100,
-              child: Center(
-                child: Text('Пройти', style: TextStyle(fontSize: 20)),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            const PhotosView(
+              photos: [
+                'assets/images/test_photo.jpg',
+                'assets/images/test_photo.jpg',
+                'assets/images/test_photo.jpg',
+                'assets/images/test_photo.jpg',
+                'assets/images/test_photo.jpg',
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              route.routeDescription,
+              textAlign: TextAlign.justify,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            ),
+            const SizedBox(height: 50),
+            KButton(
+              onPressed: () {
+                AppNavigator.push(context, MapPage(route));
+              },
+              child: const SizedBox(
+                width: 100,
+                child: Center(
+                  child: Text('Пройти', style: TextStyle(fontSize: 20)),
+                ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     ),
   );

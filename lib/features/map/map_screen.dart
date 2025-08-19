@@ -28,6 +28,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    backgroundColor: Colors.white,
     appBar: TripleAppBar(
       context,
       title: widget.route.routeName,

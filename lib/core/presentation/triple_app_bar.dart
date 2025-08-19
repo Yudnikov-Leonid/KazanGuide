@@ -8,6 +8,7 @@ class TripleAppBar extends AppBar {
     GestureTapCallback? leadingFunction,
     super.key,
   }) : super(
+         backgroundColor: Colors.white,
          leading: InkWell(
            onTap: leadingFunction,
            child: Container(

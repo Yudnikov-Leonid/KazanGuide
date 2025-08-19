@@ -10,6 +10,8 @@ import 'package:logger/logger.dart';
 late Logger logger;
 
 void mainWithFlavor(Flavor flavor, String name) {
+  bool isAppRunning = false;
+
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized().deferFirstFrame();
@@ -21,14 +23,17 @@ void mainWithFlavor(Flavor flavor, String name) {
 
       final dependencies = await initializeDependencies();
 
+      isAppRunning = true;
       WidgetsFlutterBinding.ensureInitialized().allowFirstFrame();
       runApp(dependencies.inject(child: const App()));
     },
     (e, st) {
       logger.e(e, stackTrace: st);
 
-      WidgetsFlutterBinding.ensureInitialized().allowFirstFrame();
-      runApp(ErrorApp(error: e));
+      if (!isAppRunning) {
+        WidgetsFlutterBinding.ensureInitialized().allowFirstFrame();
+        runApp(ErrorApp(error: e));
+      }
     },
   );
 }
