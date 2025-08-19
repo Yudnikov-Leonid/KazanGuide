@@ -21,27 +21,68 @@ class RouteData {
   );
 }
 
-class RoutePointData {
-  final String pointName;
+abstract class RoutePointData {
   final LatLng latLng;
-  final String shortDescription;
-  final String fullDescription;
 
   double get lat => latLng.latitude;
 
   double get long => latLng.longitude;
 
-  RoutePointData({
+  RoutePointData({required this.latLng});
+
+  static RoutePointData fromJson(Map<String, dynamic> json) {
+    if (json['points'] == null) {
+      return RouteSinglePointData.fromJson(json);
+    } else {
+      return RouteMultiPointData.fromJson(json);
+    }
+  }
+}
+
+class RouteSinglePointData extends RoutePointData {
+  final String pointName;
+  final String shortDescription;
+  final String fullDescription;
+
+  RouteSinglePointData({
     required this.pointName,
-    required this.latLng,
+    required super.latLng,
     required this.shortDescription,
     required this.fullDescription,
   });
 
-  factory RoutePointData.fromJson(Map<String, dynamic> json) => RoutePointData(
+  factory RouteSinglePointData.fromJson(Map<String, dynamic> json) =>
+      RouteSinglePointData(
+        pointName: json['name'],
+        latLng: LatLng(json['lat'], json['long']),
+        shortDescription: json['short_description'],
+        fullDescription: json['full_description'],
+      );
+
+  factory RouteSinglePointData.fromJsonWithLatLng(
+    Map<String, dynamic> json,
+    LatLng latLng,
+  ) => RouteSinglePointData(
     pointName: json['name'],
-    latLng: LatLng(json['lat'], json['long']),
+    latLng: latLng,
     shortDescription: json['short_description'],
     fullDescription: json['full_description'],
   );
+}
+
+class RouteMultiPointData extends RoutePointData {
+  final List<RouteSinglePointData> points;
+
+  RouteMultiPointData({required super.latLng, required this.points});
+
+  factory RouteMultiPointData.fromJson(Map<String, dynamic> json) {
+    final latLng = LatLng(json['lat'], json['long']);
+    return RouteMultiPointData(
+      latLng: latLng,
+      points:
+          (json['points'] as List<dynamic>)
+              .map((e) => RouteSinglePointData.fromJsonWithLatLng(e, latLng))
+              .toList(),
+    );
+  }
 }

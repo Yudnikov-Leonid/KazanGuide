@@ -8,7 +8,7 @@ import 'package:kazan_guide/features/point_details/audio_widget.dart';
 class PointDetailsScreen extends StatefulWidget {
   const PointDetailsScreen({required this.point, super.key});
 
-  final RoutePointData point;
+  final RouteSinglePointData point;
 
   @override
   State<PointDetailsScreen> createState() => _PointDetailsScreenState();

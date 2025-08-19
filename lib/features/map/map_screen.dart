@@ -8,8 +8,10 @@ import 'package:kazan_guide/core/di/dependencies.dart';
 import 'package:kazan_guide/core/navigation/app_navigator.dart';
 import 'package:kazan_guide/core/navigation/pages.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
+import 'package:kazan_guide/core/presentation/curver_animation_w_save_listener.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 import 'package:kazan_guide/features/map/map_bloc.dart';
+import 'package:kazan_guide/features/map/markers.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatefulWidget {
@@ -23,8 +25,49 @@ class MapScreen extends StatefulWidget {
   State<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   final _mapController = MapController();
+  final Map<LatLng, (AnimationController, CurvedAnimationWSaveListener)>
+  _animationControllers = {};
+
+  @override
+  void initState() {
+    final multiPoints = widget.route.points.whereType<RouteMultiPointData>();
+
+    for (final point in multiPoints) {
+      final controller = AnimationController(
+        duration: const Duration(milliseconds: 200),
+        vsync: this,
+      );
+      final animation = CurvedAnimationWSaveListener(
+        parent: controller,
+        curve: Curves.ease,
+      )..addListener(() {
+        setState(() {});
+      });
+      _animationControllers.addAll({point.latLng: (controller, animation)});
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationControllers.forEach((_, v) {
+      v.$1.dispose();
+      v.$2
+        ..removeAllListeners()
+        ..dispose();
+    });
+    super.dispose();
+  }
+
+  void _resetAllAnimations() {
+    _animationControllers.forEach((_, v) {
+      if (v.$2.value > 0) {
+        v.$1.reverse();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -67,6 +110,9 @@ class _MapScreenState extends State<MapScreen> {
                           : LatLng(points.first.lat, points.first.long),
                   initialZoom: 14,
                   maxZoom: 18,
+                  onPointerDown: (_, _) {
+                    _resetAllAnimations();
+                  },
                 ),
                 children: [
                   TileLayer(
@@ -88,40 +134,49 @@ class _MapScreenState extends State<MapScreen> {
                   MarkerLayer(
                     markers:
                         points
-                            .mapIndexed(
-                              (i, point) => Marker(
-                                height: 50,
-                                width: 40,
-                                point: LatLng(point.lat, point.long),
-                                child: InkWell(
-                                  onTap: () {
+                            .mapIndexed((i, point) {
+                              if (point is RouteSinglePointData) {
+                                return MapSingleMarker().marker(
+                                  () {
                                     AppNavigator.push(
                                       context,
                                       PointDetailsPage(point),
                                     );
                                   },
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.red,
-                                        ),
-                                      ),
-                                      Text(
-                                        (i + 1).toString(),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
+                                  point,
+                                  i,
+                                );
+                              } else {
+                                return MapMultiMarker(
+                                  animationPos:
+                                      _animationControllers[point.latLng]!
+                                          .$2
+                                          .value,
+                                  action: () {
+                                    final animationController =
+                                        _animationControllers[point.latLng]!.$1;
+                                    final animation =
+                                        _animationControllers[point.latLng]!.$2;
+
+                                    if (animation.value == 1) {
+                                      animationController.reverse();
+                                    } else if (animation.value == 0) {
+                                      _resetAllAnimations();
+                                      animationController.forward();
+                                    }
+                                  },
+                                  onTapOnElement: (index) {
+                                    AppNavigator.push(
+                                      context,
+                                      PointDetailsPage(point.points[index]),
+                                    );
+                                  },
+                                  point: point as RouteMultiPointData,
+                                  index: i,
+                                ).marker();
+                              }
+                            })
+                            .sorted((a, b) => a.height > b.height ? 1 : 0)
                             .toList(),
                   ),
                   const CurrentLocationLayer(),

@@ -51,7 +51,7 @@ final class MapPage extends AppPage {
 }
 
 final class PointDetailsPage extends AppPage {
-  PointDetailsPage(RoutePointData point)
+  PointDetailsPage(RouteSinglePointData point)
     : super(
         name: "point_details_page",
         child: PointDetailsScreen(point: point),
