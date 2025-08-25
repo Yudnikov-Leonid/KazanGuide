@@ -26,21 +26,19 @@ class PointDetailsScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            const PhotosView(
-              photos: [
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-              ],
+            const SizedBox(height: 20, width: double.infinity),
+            PhotosView(
+              photos: point.images.map((e) => 'assets/images/$e').toList(),
             ),
             const SizedBox(height: 16),
-            AudioWidget(assetSource: 'audio/test_audio.mp3', name: 'RUS'),
-            const SizedBox(height: 16),
-            AudioWidget(assetSource: 'audio/test_audio_2.mp3', name: 'TAT'),
-            const SizedBox(height: 16),
+            if (point.audioRu != null) ...[
+              AudioWidget(assetSource: 'audio/${point.audioRu}', name: 'RUS'),
+              const SizedBox(height: 16),
+            ],
+            if (point.audioTat != null) ...[
+              AudioWidget(assetSource: 'audio/${point.audioTat}', name: 'TAT'),
+              const SizedBox(height: 16),
+            ],
             Text(
               point.shortDescription,
               textAlign: TextAlign.justify,

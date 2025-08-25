@@ -3,17 +3,26 @@ import 'package:latlong2/latlong.dart';
 class RouteData {
   final String routeName;
   final String routeDescription;
+  final String routeImage;
+  final List<String> routeImages;
   final List<RoutePointData> points;
 
   RouteData({
     required this.routeName,
     required this.routeDescription,
+    required this.routeImage,
+    required this.routeImages,
     required this.points,
   });
 
   factory RouteData.fromJson(Map<String, dynamic> json) => RouteData(
     routeName: json['route_name'],
     routeDescription: json['route_description'],
+    routeImage: json['route_image'],
+    routeImages:
+        (json['route_images'] as List<dynamic>)
+            .map((e) => e.toString())
+            .toList(),
     points:
         (json['points'] as List<dynamic>)
             .map((e) => RoutePointData.fromJson(e))
@@ -43,20 +52,24 @@ class RouteSinglePointData extends RoutePointData {
   final String pointName;
   final String shortDescription;
   final String fullDescription;
+  final String? audioRu;
+  final String? audioTat;
+  final List<String> images;
 
   RouteSinglePointData({
     required this.pointName,
     required super.latLng,
     required this.shortDescription,
     required this.fullDescription,
+    required this.audioRu,
+    required this.audioTat,
+    required this.images,
   });
 
   factory RouteSinglePointData.fromJson(Map<String, dynamic> json) =>
-      RouteSinglePointData(
-        pointName: json['name'],
-        latLng: LatLng(json['lat'], json['long']),
-        shortDescription: json['short_description'],
-        fullDescription: json['full_description'],
+      RouteSinglePointData.fromJsonWithLatLng(
+        json,
+        LatLng(json['lat'], json['long']),
       );
 
   factory RouteSinglePointData.fromJsonWithLatLng(
@@ -67,6 +80,9 @@ class RouteSinglePointData extends RoutePointData {
     latLng: latLng,
     shortDescription: json['short_description'],
     fullDescription: json['full_description'],
+    audioRu: json['audio_ru'],
+    audioTat: json['audio_tat'],
+    images: (json['images'] as List<dynamic>).map((e) => e.toString()).toList(),
   );
 }
 

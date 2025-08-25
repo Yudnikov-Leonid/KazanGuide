@@ -80,7 +80,15 @@ class _Item extends StatelessWidget {
             ),
           ),
         ),
-        Container(height: 180, color: Colors.amber),
+        SizedBox(
+          height: 180,
+          width: double.infinity,
+          child: Image.asset(
+            'assets/images/${route.routeImage}',
+            fit: BoxFit.cover,
+          ),
+        ),
+        const SizedBox(height: 16),
       ],
     ),
   );

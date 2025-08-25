@@ -26,15 +26,9 @@ class RouteDetailsScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            const PhotosView(
-              photos: [
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-              ],
+            const SizedBox(height: 20, width: double.infinity),
+            PhotosView(
+              photos: route.routeImages.map((e) => 'assets/images/$e').toList(),
             ),
             const SizedBox(height: 16),
             Text(
