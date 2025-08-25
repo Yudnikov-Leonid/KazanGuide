@@ -38,18 +38,16 @@ android {
         }
     }
 
-//    flavorDimessions = "app"
-//
-//    productFlavors {
-//        dev {
-//            dimension = "app"
-//            applicationIdSuffix = ".dev"
-//            versionNameSuffix = "-dev"
-//        }
-//        prod {
-//            dimension = "app"
-//        }
-//    }
+    flavorDimensions += "default"
+    productFlavors {
+        create("dev") {
+            dimension = "default"
+            versionNameSuffix = "--dev"
+        }
+        create("prod") {
+            dimension = "default"
+        }
+    }
 }
 
 flutter {

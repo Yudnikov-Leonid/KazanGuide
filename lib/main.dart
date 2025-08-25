@@ -9,6 +9,9 @@ import 'package:logger/logger.dart';
 
 late Logger logger;
 
+/// flutter build apk -t lib/flavors/main_dev.dart --flavor dev
+/// flutter build apk -t lib/flavors/main_prod.dart --flavor prod
+
 void mainWithFlavor(Flavor flavor, String name) {
   bool isAppRunning = false;
 
@@ -16,7 +19,7 @@ void mainWithFlavor(Flavor flavor, String name) {
     () async {
       WidgetsFlutterBinding.ensureInitialized().deferFirstFrame();
 
-      /// сейчас флавор не настроен на нативе
+      /// сейчас flavor настроен только на андроид, 25.08.2025
       FlavorConfig(flavor: flavor, name: name);
 
       logger = Logger();
