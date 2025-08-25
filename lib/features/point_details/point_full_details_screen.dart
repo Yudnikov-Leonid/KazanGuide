@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/core/navigation/app_navigator.dart';
-import 'package:kazan_guide/core/navigation/pages.dart';
-import 'package:kazan_guide/core/presentation/photo_view.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
-import 'package:kazan_guide/features/point_details/audio_widget.dart';
 
-class PointDetailsScreen extends StatelessWidget {
-  const PointDetailsScreen({required this.point, super.key});
+class PointFullDetailsScreen extends StatelessWidget {
+  const PointFullDetailsScreen({required this.point, super.key});
 
   final RouteSinglePointData point;
 
@@ -26,23 +23,9 @@ class PointDetailsScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            const PhotosView(
-              photos: [
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-                'assets/images/test_photo.jpg',
-              ],
-            ),
-            const SizedBox(height: 16),
-            AudioWidget(assetSource: 'audio/test_audio.mp3', name: 'RUS'),
-            const SizedBox(height: 16),
-            AudioWidget(assetSource: 'audio/test_audio_2.mp3', name: 'TAT'),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Text(
-              point.shortDescription,
+              point.fullDescription,
               textAlign: TextAlign.justify,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
             ),
@@ -50,7 +33,7 @@ class PointDetailsScreen extends StatelessWidget {
             if (point.fullDescription.isNotEmpty)
               TextButton(
                 onPressed: () {
-                  AppNavigator.push(context, PointFullDetailsPage(point));
+                  AppNavigator.pop(context);
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -58,10 +41,7 @@ class PointDetailsScreen extends StatelessWidget {
                 ),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Показать полное описание'),
-                    Icon(Icons.navigate_next),
-                  ],
+                  children: [Icon(Icons.navigate_before), Text('Назад')],
                 ),
               ),
             const SizedBox(height: 20),

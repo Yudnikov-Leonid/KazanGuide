@@ -3,6 +3,7 @@ import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/features/main/main_screen.dart';
 import 'package:kazan_guide/features/map/map_screen.dart';
 import 'package:kazan_guide/features/point_details/point_details_screen.dart';
+import 'package:kazan_guide/features/point_details/point_full_details_screen.dart';
 import 'package:kazan_guide/features/route_details/route_details_screen.dart';
 
 sealed class AppPage extends CupertinoPage<void> {
@@ -56,5 +57,14 @@ final class PointDetailsPage extends AppPage {
         name: "point_details_page",
         child: PointDetailsScreen(point: point),
         key: ValueKey("point_details_page-${point.pointName}"),
+      );
+}
+
+final class PointFullDetailsPage extends AppPage {
+  PointFullDetailsPage(RouteSinglePointData point)
+    : super(
+        name: "point_full_details_page",
+        child: PointFullDetailsScreen(point: point),
+        key: ValueKey("point_full_details_page-${point.pointName}"),
       );
 }
