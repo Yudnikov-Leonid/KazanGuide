@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/navigation/pages.dart';
 
 typedef AppPages = List<AppPage>;
@@ -26,14 +26,22 @@ class AppNavigator extends StatefulWidget {
   State<AppNavigator> createState() => _AppNavigatorState();
 }
 
-class _AppNavigatorState extends State<AppNavigator> {
+class _AppNavigatorState extends State<AppNavigator>
+    with WidgetsBindingObserver {
   AppPages get state => _state;
   late AppPages _state;
 
   @override
   void initState() {
     _state = widget.initialState;
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   void change(AppPages Function(AppPages pages) fn) {
@@ -44,11 +52,24 @@ class _AppNavigatorState extends State<AppNavigator> {
     if (next.isEmpty || listEquals(_state, next)) return;
     _state = next;
 
+    print('MyLog, newState: $_state');
     setState(() {});
   }
 
+  @override
+  Future<bool> didPopRoute() async {
+    if (_state.length < 2) return false;
+    _onDidRemovePage(_state.last);
+    return true;
+  }
+
   void _onDidRemovePage(Page<Object?> page) {
-    change((pages) => pages..removeWhere((e) => e.key == page.key));
+    change(
+      (pages) =>
+          pages
+            ..toList()
+            ..removeWhere((e) => e.key == page.key),
+    );
   }
 
   @override

@@ -10,20 +10,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late AppNavigator _navigator;
-
-  @override
-  void initState() {
-    _navigator = const AppNavigator(initialState: [MainPage()]);
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) => MaterialApp(
     theme: ThemeData(brightness: Brightness.light),
     darkTheme: ThemeData(brightness: Brightness.dark),
     themeMode: ThemeMode.system,
     debugShowCheckedModeBanner: false,
-    builder: (context, _) => _navigator,
+    builder: (context, _) => const AppNavigator(initialState: [MainPage()]),
   );
 }
