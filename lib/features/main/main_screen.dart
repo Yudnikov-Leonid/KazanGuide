@@ -42,11 +42,23 @@ class MainScreen extends StatelessWidget {
           }
 
           if (state is MainLoadedState) {
-            return Padding(
-              padding: const EdgeInsets.all(8),
-              child: ListView(
-                children: state.data.map<Widget>(_Item.new).toList(),
-              ),
+            return OrientationBuilder(
+              builder: (context, orientation) {
+                if (orientation == Orientation.portrait) {
+                  return ListView(
+                    padding: const EdgeInsets.all(8),
+                    children: state.data.map<Widget>(_Item.new).toList(),
+                  );
+                } else {
+                  return GridView.count(
+                    padding: const EdgeInsets.all(8),
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 1.7 / 1,
+                    children: state.data.map<Widget>(_Item.new).toList(),
+                  );
+                }
+              },
             );
           }
 

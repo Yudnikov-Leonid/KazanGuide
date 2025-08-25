@@ -47,7 +47,9 @@ class RouteDetailsScreen extends StatelessWidget {
               child: const SizedBox(
                 width: 100,
                 child: Center(
-                  child: Text('Пройти', style: TextStyle(fontSize: 20)),
+                  child: FittedBox(
+                    child: Text('Пройти', style: TextStyle(fontSize: 20)),
+                  ),
                 ),
               ),
             ),

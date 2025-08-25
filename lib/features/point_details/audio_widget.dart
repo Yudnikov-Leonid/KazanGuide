@@ -99,65 +99,65 @@ class _AudioWidgetState extends State<AudioWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      InkWell(
-        customBorder: const CircleBorder(),
-        onTap: _playButton,
-        child: Container(
-          height: 52,
-          width: 52,
-          decoration: BoxDecoration(
-            color: AppColors.red,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            _isPlaying && !_onPause ? Icons.pause : Icons.play_arrow,
-            color: Colors.white,
-            size: 30,
-          ),
-        ),
-      ),
-      StreamBuilder(
-        stream: _player.onPositionChanged,
-        builder: (context, snapshot) {
-          final value = snapshot.data?.inSeconds.toDouble() ?? 0.0;
-          return Stack(
-            children: [
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.75,
-                child: Slider(
-                  min: 0,
-                  thumbColor: AppColors.red,
-                  activeColor: AppColors.red,
-                  max: _duration.inSeconds.toDouble(),
-                  value: value,
-                  onChanged: (newValue) {
-                    _player.seek(Duration(seconds: newValue.toInt()));
-                  },
-                ),
+  Widget build(BuildContext context) => SizedBox(
+    width: MediaQuery.sizeOf(context).width,
+    child: FittedBox(
+      child: Row(
+        children: [
+          InkWell(
+            customBorder: const CircleBorder(),
+            onTap: _playButton,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: AppColors.red,
+                shape: BoxShape.circle,
               ),
-              Positioned(
-                bottom: 0,
-                right: 20,
-                child: Text(
-                  '${_formatTime(snapshot.data?.inSeconds ?? 0)}/${_formatTime(_duration.inSeconds)}',
-                ),
+              child: Icon(
+                _isPlaying && !_onPause ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
+                size: 30,
               ),
-              // Positioned(
-              //   bottom: 0,
-              //   left: 15,
-              //   child: Text(
-              //     widget.name,
-              //     style: const TextStyle(fontWeight: FontWeight.w500),
-              //   ),
-              // ),
-            ],
-          );
-        },
+            ),
+          ),
+          StreamBuilder(
+            stream: _player.onPositionChanged,
+            builder: (context, snapshot) {
+              final value = snapshot.data?.inSeconds.toDouble() ?? 0.0;
+              return Stack(
+                children: [
+                  Positioned(
+                    bottom: 0,
+                    right: 20,
+                    child: Text(
+                      '${_formatTime(snapshot.data?.inSeconds ?? 0)}/${_formatTime(_duration.inSeconds)}',
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width * 0.75,
+                    child: Slider(
+                      min: 0,
+                      thumbColor: AppColors.red,
+                      activeColor: AppColors.red,
+                      max: _duration.inSeconds.toDouble(),
+                      value: value,
+                      onChanged: (newValue) {
+                        _player.seek(Duration(seconds: newValue.toInt()));
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          Text(
+            widget.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
-      Text(widget.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-    ],
+    ),
   );
 
   String _formatTime(int seconds) {
