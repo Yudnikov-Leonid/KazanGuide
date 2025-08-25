@@ -16,7 +16,13 @@ class MainScreen extends StatelessWidget {
     appBar: TripleAppBar(
       context,
       title: "Tri",
-      textStyle: TextStyle(color: AppColors.green, fontWeight: FontWeight.w500),
+      textStyle: TextStyle(
+        color:
+            Theme.of(context).colorScheme.brightness == Brightness.light
+                ? AppColors.green
+                : Colors.white,
+        fontWeight: FontWeight.w500,
+      ),
     ),
     body: BlocProvider<MainBloc>(
       create: (context) => MainBloc()..add(MainEventLoad()),
