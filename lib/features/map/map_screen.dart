@@ -117,7 +117,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 children: [
                   TileLayer(
                     urlTemplate:
-                        'https://basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png',
+                        'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.kazanGuide.kazanGuide',
                   ),
                   if (state is MapStateBase && state.routePoints.isNotEmpty)

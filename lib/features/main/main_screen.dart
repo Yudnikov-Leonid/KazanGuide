@@ -13,8 +13,11 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
-    appBar: TripleAppBar(context, title: "Tri"),
+    appBar: TripleAppBar(
+      context,
+      title: "Tri",
+      textStyle: TextStyle(color: AppColors.green, fontWeight: FontWeight.w500),
+    ),
     body: BlocProvider<MainBloc>(
       create: (context) => MainBloc()..add(MainEventLoad()),
       child: BlocBuilder<MainBloc, MainState>(

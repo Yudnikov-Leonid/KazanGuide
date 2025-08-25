@@ -6,9 +6,9 @@ class TripleAppBar extends AppBar {
     BuildContext context, {
     required String title,
     GestureTapCallback? leadingFunction,
+    TextStyle textStyle = const TextStyle(),
     super.key,
   }) : super(
-         backgroundColor: Colors.white,
          leading: InkWell(
            onTap: leadingFunction,
            child: Container(
@@ -37,6 +37,6 @@ class TripleAppBar extends AppBar {
            ),
          ],
          centerTitle: true,
-         title: FittedBox(child: Text(title)),
+         title: FittedBox(child: Text(title, style: textStyle)),
        );
 }

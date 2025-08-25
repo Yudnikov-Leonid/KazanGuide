@@ -20,6 +20,9 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+    theme: ThemeData(brightness: Brightness.light),
+    darkTheme: ThemeData(brightness: Brightness.dark),
+    themeMode: ThemeMode.system,
     debugShowCheckedModeBanner: false,
     builder: (context, _) => _navigator,
   );

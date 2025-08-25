@@ -14,7 +14,6 @@ class RouteDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
     appBar: TripleAppBar(
       context,
       title: route.routeName,
