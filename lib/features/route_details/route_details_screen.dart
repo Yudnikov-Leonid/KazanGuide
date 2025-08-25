@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/core/navigation/app_navigator.dart';
 import 'package:kazan_guide/core/navigation/pages.dart';
@@ -39,6 +40,8 @@ class RouteDetailsScreen extends StatelessWidget {
             const SizedBox(height: 50),
             KButton(
               onPressed: () {
+                HapticFeedback.heavyImpact();
+
                 AppNavigator.push(context, MapPage(route));
               },
               child: const SizedBox(
