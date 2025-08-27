@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
+import 'package:kazan_guide/core/presentation/context_expentions.dart';
 
 class AudioWidget extends StatefulWidget {
   const AudioWidget({required this.assetSource, required this.name, super.key});
@@ -132,6 +133,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                     right: 20,
                     child: Text(
                       '${_formatTime(snapshot.data?.inSeconds ?? 0)}/${_formatTime(_duration.inSeconds)}',
+                      style: context.textTheme.bodyLarge,
                     ),
                   ),
                   SizedBox(
@@ -153,7 +155,9 @@ class _AudioWidgetState extends State<AudioWidget> {
           ),
           Text(
             widget.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: context.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
