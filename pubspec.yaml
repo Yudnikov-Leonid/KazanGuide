@@ -1,7 +1,7 @@
 name: kazan_guide
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.1
 
 environment:
   sdk: ^3.7.2
@@ -38,9 +38,11 @@ flutter:
     - assets/images/route_1/
     - assets/images/route_1/main/
     - assets/images/route_1/points/
+    - assets/images/route_1/points_full/
     - assets/images/route_2/
     - assets/images/route_2/main/
     - assets/images/route_2/points/
+    - assets/images/route_2/points_full/
     - assets/audio/route_1/ru/
     - assets/audio/route_1/tat/
     - assets/audio/route_2/ru/
