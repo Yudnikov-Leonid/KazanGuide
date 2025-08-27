@@ -31,7 +31,11 @@ flutter:
   assets:
     - assets/images/
     - assets/images/route_1/
+    - assets/images/route_1/main/
+    - assets/images/route_1/points/
     - assets/images/route_2/
+    - assets/images/route_2/main/
+    - assets/images/route_2/points/
     - assets/audio/route_1/ru/
     - assets/audio/route_1/tat/
     - assets/audio/route_2/ru/
