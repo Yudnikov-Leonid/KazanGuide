@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/core/navigation/app_navigator.dart';
+import 'package:kazan_guide/core/presentation/context_expentions.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 
 class PointFullDetailsScreen extends StatelessWidget {
@@ -26,7 +27,10 @@ class PointFullDetailsScreen extends StatelessWidget {
             Text(
               point.fullDescription,
               textAlign: TextAlign.justify,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              style: context.textTheme.bodyLarge?.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             const SizedBox(height: 16),
             if (point.fullDescription.isNotEmpty)

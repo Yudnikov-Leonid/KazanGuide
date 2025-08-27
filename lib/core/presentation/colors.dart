@@ -3,6 +3,6 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static Color green = const Color.fromARGB(255, 0, 128, 1);
-  static Color red = const Color.fromARGB(255, 255, 0, 0);
+  static Color green = const Color.fromARGB(255, 82, 129, 63);
+  static Color red = const Color.fromARGB(255, 217, 20, 14);
 }

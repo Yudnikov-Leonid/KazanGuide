@@ -20,6 +20,7 @@ dependencies:
   geolocator: ^14.0.2
   audioplayers: ^6.5.0
   num_remap: ^1.0.2
+  google_fonts: ^6.3.0
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +29,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat.ttf
   assets:
     - assets/images/
     - assets/images/route_1/

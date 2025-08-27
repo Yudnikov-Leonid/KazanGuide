@@ -52,7 +52,6 @@ class _AppNavigatorState extends State<AppNavigator>
     if (next.isEmpty || listEquals(_state, next)) return;
     _state = next;
 
-    print('MyLog, newState: $_state');
     setState(() {});
   }
 

@@ -48,11 +48,11 @@ class _Photo extends StatelessWidget {
       );
     },
     child: Container(
-      height: 140,
-      width: 140,
+      height: 210,
+      width: 210,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(12),
         child: Image.asset(asset, height: 140, width: 140, fit: BoxFit.cover),
       ),
     ),

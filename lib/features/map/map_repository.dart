@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:latlong2/latlong.dart';
 import 'package:open_route_service/open_route_service.dart';
 
@@ -35,9 +33,9 @@ class MapRepositoryImpl implements MapRepository {
             response.map((e) => LatLng(e.latitude, e.longitude)).toList();
       }
 
-      log(
-        '\'$key\': ${_cache[key]!.map((e) => 'const LatLng(${e.latitude}, ${e.longitude})').toList()},\n',
-      );
+      // log(
+      //   '\'$key\': ${_cache[key]!.map((e) => 'const LatLng(${e.latitude}, ${e.longitude})').toList()},\n',
+      // );
 
       result.addAll(_cache[key]!);
     }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/core/navigation/app_navigator.dart';
 import 'package:kazan_guide/core/navigation/pages.dart';
+import 'package:kazan_guide/core/presentation/context_expentions.dart';
 import 'package:kazan_guide/core/presentation/photo_view.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 import 'package:kazan_guide/features/point_details/audio_widget.dart';
@@ -41,7 +42,11 @@ class PointDetailsScreen extends StatelessWidget {
             Text(
               point.shortDescription,
               textAlign: TextAlign.justify,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              style: context.textTheme.bodyLarge?.copyWith(
+                fontSize: 18,
+                overflow: TextOverflow.visible,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             const SizedBox(height: 16),
             if (point.fullDescription.isNotEmpty)
