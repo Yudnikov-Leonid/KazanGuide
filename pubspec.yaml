@@ -29,10 +29,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  fonts:
-    - family: Montserrat
-      fonts:
-        - asset: assets/fonts/Montserrat.ttf
   assets:
     - assets/images/
     - assets/images/route_1/

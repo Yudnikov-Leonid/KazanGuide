@@ -38,6 +38,36 @@ class PointFullDetailsScreen extends StatelessWidget {
                   );
                 }
 
+                if (e.startsWith('quote:')) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 4, top: 8, bottom: 8),
+                    child: Text(
+                      e.substring(6),
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 16,
+                      ),
+                    ),
+                  );
+                }
+
+                if (e.startsWith('poetry:')) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      left: 50,
+                      top: 16,
+                      bottom: 16,
+                    ),
+                    child: Text(
+                      e.substring(7),
+                      textAlign: TextAlign.start,
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        fontSize: 18,
+                      ),
+                    ),
+                  );
+                }
+
                 return Text(
                   e,
                   textAlign: TextAlign.justify,

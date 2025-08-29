@@ -9,10 +9,13 @@ class AppNavigator extends StatefulWidget {
 
   final AppPages initialState;
 
+  static AppNavigatorState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<AppNavigatorState>();
+
   static void change(
     BuildContext context,
     AppPages Function(AppPages pages) fn,
-  ) => context.findAncestorStateOfType<_AppNavigatorState>()?.change(fn);
+  ) => maybeOf(context)?.change(fn);
 
   static void push(BuildContext context, AppPage page) =>
       change(context, (state) => [...state, page]);
@@ -22,20 +25,28 @@ class AppNavigator extends StatefulWidget {
     return state;
   });
 
+  static void setCanPop(BuildContext context, bool value) =>
+      maybeOf(context)?.setCanPop(value);
+
   @override
-  State<AppNavigator> createState() => _AppNavigatorState();
+  State<AppNavigator> createState() => AppNavigatorState();
 }
 
-class _AppNavigatorState extends State<AppNavigator>
+class AppNavigatorState extends State<AppNavigator>
     with WidgetsBindingObserver {
   AppPages get state => _state;
   late AppPages _state;
+  bool _canPop = true;
 
   @override
   void initState() {
     _state = widget.initialState;
     WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  void setCanPop(bool value) {
+    _canPop = value;
   }
 
   @override
@@ -57,7 +68,8 @@ class _AppNavigatorState extends State<AppNavigator>
 
   @override
   Future<bool> didPopRoute() async {
-    if (_state.length < 2) return false;
+    if (!_canPop) return true;
+    if (_state.length <= 1) return false;
     _onDidRemovePage(_state.last);
     return true;
   }

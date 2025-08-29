@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/features/main/main_screen.dart';
 import 'package:kazan_guide/features/map/map_screen.dart';
@@ -6,12 +6,12 @@ import 'package:kazan_guide/features/point_details/point_details_screen.dart';
 import 'package:kazan_guide/features/point_details/point_full_details_screen.dart';
 import 'package:kazan_guide/features/route_details/route_details_screen.dart';
 
-sealed class AppPage extends CupertinoPage<void> {
+sealed class AppPage extends MaterialPage<void> {
   const AppPage({
     required String super.name,
     required super.child,
     required LocalKey super.key,
-  });
+  }) : super();
 
   @override
   String get name => super.name ?? "Unknown Page";

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
+import 'package:kazan_guide/core/presentation/context_expentions.dart';
 
 class TripleAppBar extends AppBar {
   TripleAppBar(
     BuildContext context, {
     required String title,
     GestureTapCallback? leadingFunction,
-    TextStyle textStyle = const TextStyle(),
+    TextStyle? textStyle,
     super.key,
   }) : super(
          leading: InkWell(
@@ -37,11 +38,25 @@ class TripleAppBar extends AppBar {
            ),
          ],
          centerTitle: true,
-         title: Text(
-           title,
-           style: textStyle,
-           maxLines: 2,
-           textAlign: TextAlign.center,
-         ),
+         titleSpacing: 4,
+         title:
+             title.length > 20
+                 ? SizedBox(
+                   width: MediaQuery.sizeOf(context).width * 0.5,
+                   child: FittedBox(
+                     child: Text(
+                       title,
+                       style: textStyle ?? context.textTheme.bodyLarge,
+                       maxLines: 2,
+                       textAlign: TextAlign.center,
+                     ),
+                   ),
+                 )
+                 : Text(
+                   title,
+                   style: textStyle ?? context.textTheme.bodyLarge,
+                   maxLines: 2,
+                   textAlign: TextAlign.center,
+                 ),
        );
 }

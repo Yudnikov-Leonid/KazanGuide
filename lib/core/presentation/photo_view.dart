@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:kazan_guide/core/navigation/app_navigator.dart';
 
 class PhotosView extends StatelessWidget {
   const PhotosView({required this.photos, super.key});
@@ -41,11 +42,13 @@ class _Photo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => InkWell(
-    onTap: () {
-      showDialog(
+    onTap: () async {
+      final navigator = AppNavigator.maybeOf(context)!..setCanPop(false);
+      await showDialog(
         context: context,
         builder: (context) => PhotosPreviewDialog(assets: photos, index: index),
       );
+      navigator.setCanPop(true);
     },
     child: Container(
       height: 210,
@@ -87,13 +90,13 @@ class PhotosPreviewDialog extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 400,
+          height: 500,
           child: PageView(
             controller: PageController(
-              viewportFraction: 0.8,
+              viewportFraction: 0.95,
               initialPage: index,
             ),
-            children: assets.map(_photo).toList(),
+            children: assets.map((asset) => _photo(context, asset)).toList(),
           ),
         ),
         const SizedBox(height: 60),
@@ -101,17 +104,20 @@ class PhotosPreviewDialog extends StatelessWidget {
     ),
   );
 
-  Widget _photo(String asset) => Container(
-    height: 400,
-    width: 400,
-    margin: const EdgeInsets.symmetric(horizontal: 6),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(color: Colors.white, width: 2),
-    ),
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: Image.asset(asset, fit: BoxFit.cover, height: 400, width: 400),
+  Widget _photo(BuildContext context, String asset) => GestureDetector(
+    onTap: () {
+      Navigator.pop(context);
+    },
+    child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        //border: Border.all(color: Colors.white, width: 2),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [GestureDetector(onTap: () {}, child: Image.asset(asset))],
+      ),
     ),
   );
 }

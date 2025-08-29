@@ -5,6 +5,7 @@ import 'package:kazan_guide/core/navigation/app_navigator.dart';
 import 'package:kazan_guide/core/navigation/pages.dart';
 import 'package:kazan_guide/core/presentation/KButton.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
+import 'package:kazan_guide/core/presentation/context_expentions.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 import 'package:kazan_guide/features/main/main_bloc.dart';
 
@@ -16,12 +17,13 @@ class MainScreen extends StatelessWidget {
     appBar: TripleAppBar(
       context,
       title: "Tri",
-      textStyle: TextStyle(
+      textStyle: context.textTheme.bodyLarge?.copyWith(
         color:
             Theme.of(context).colorScheme.brightness == Brightness.light
                 ? AppColors.green
                 : Colors.white,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
+        fontSize: 26,
       ),
     ),
     body: BlocProvider<MainBloc>(
@@ -85,6 +87,8 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => InkWell(
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     onTap: () {
       AppNavigator.push(context, RouteDetailsPage(route));
     },
