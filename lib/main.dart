@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 
 late Logger logger;
 
+/// firebase deploy --only hosting:baru-guide
 /// flutter build apk -t lib/flavors/main_dev.dart --flavor dev
 /// flutter build apk -t lib/flavors/main_prod.dart --flavor prod
 
