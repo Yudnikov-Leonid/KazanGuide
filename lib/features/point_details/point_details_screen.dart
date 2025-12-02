@@ -55,7 +55,7 @@ class _PointDetailsScreenState extends State<PointDetailsScreen> {
               AudioWidget(assetSource: 'audio/${_point.audioTat}', name: 'TAT'),
               const SizedBox(height: 16),
             ],
-            Text(
+            SelectableText(
               _point.shortDescription,
               textAlign: TextAlign.justify,
               style: context.textTheme.bodyLarge?.copyWith(

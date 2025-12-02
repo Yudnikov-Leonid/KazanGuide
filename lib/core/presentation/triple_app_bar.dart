@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
 import 'package:kazan_guide/core/presentation/context_expentions.dart';
@@ -28,7 +31,7 @@ class TripleAppBar extends AppBar {
          leadingWidth: MediaQuery.sizeOf(context).width * 0.25,
          actions: [
            Container(
-             color: AppColors.red,
+             color: AppColors.green,
              width: MediaQuery.sizeOf(context).width * 0.25,
              child: Padding(
                padding: const EdgeInsets.only(top: 9, bottom: 4),
@@ -42,7 +45,7 @@ class TripleAppBar extends AppBar {
          centerTitle: true,
          titleSpacing: 4,
          title:
-             title.length > 20
+             title.length > 20 && !kIsWeb
                  ? SizedBox(
                    width: MediaQuery.sizeOf(context).width * 0.5,
                    child: FittedBox(
@@ -56,7 +59,12 @@ class TripleAppBar extends AppBar {
                  )
                  : Text(
                    title,
-                   style: textStyle ?? context.textTheme.bodyLarge,
+                   style:
+                       textStyle ??
+                       context.textTheme.bodyLarge?.copyWith(
+                         fontWeight: FontWeight.w600,
+                         fontSize: 18
+                       ),
                    maxLines: 2,
                    textAlign: TextAlign.center,
                  ),

@@ -1,5 +1,8 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:kazan_guide/core/presentation/context_expentions.dart';
 
 class PhotosView extends StatelessWidget {
   const PhotosView({required this.photos, super.key});
@@ -59,7 +62,7 @@ class _Photo extends StatelessWidget {
   );
 }
 
-class PhotosPreviewDialog extends StatelessWidget {
+class PhotosPreviewDialog extends StatefulWidget {
   const PhotosPreviewDialog({
     required this.assets,
     required this.index,
@@ -70,34 +73,78 @@ class PhotosPreviewDialog extends StatelessWidget {
   final int index;
 
   @override
-  Widget build(BuildContext context) => Dialog(
-    insetPadding: EdgeInsets.zero,
-    backgroundColor: Colors.transparent,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 40),
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.close, size: 30, color: Colors.white),
-          ),
-        ),
-        SizedBox(
-          height: 500,
-          child: PageView(
-            controller: PageController(
-              viewportFraction: 0.95,
-              initialPage: index,
+  State<PhotosPreviewDialog> createState() => _PhotosPreviewDialogState();
+}
+
+class _PhotosPreviewDialogState extends State<PhotosPreviewDialog> {
+  final _focusNode = FocusNode();
+  late final _pageController = PageController(
+    viewportFraction: 1,
+    initialPage: widget.index,
+  );
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _handleKeys(KeyEvent event) {
+    if (event is! KeyDownEvent) return;
+
+    if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+      if (_pageController.page == null ||
+          _pageController.page == widget.assets.length - 1)
+        return;
+
+      /// jumpTo not working for some reason
+      _pageController.animateToPage(
+        _pageController.page!.round() + 1,
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.ease,
+      );
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      if (_pageController.page == null || _pageController.page == 0) return;
+
+      _pageController.animateToPage(
+        _pageController.page!.round() - 1,
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => KeyboardListener(
+    autofocus: true,
+    focusNode: _focusNode,
+    onKeyEvent: _handleKeys,
+    child: Dialog(
+      insetPadding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 20,
+            right: 20,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.close, size: 30, color: Colors.white),
             ),
-            children: assets.map((asset) => _photo(context, asset)).toList(),
           ),
-        ),
-        const SizedBox(height: 60),
-      ],
+          SizedBox(
+            height: context.screenSize.height,
+            width: context.screenSize.width,
+            child: PageView(
+              controller: _pageController,
+              children:
+                  widget.assets.map((asset) => _photo(context, asset)).toList(),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 

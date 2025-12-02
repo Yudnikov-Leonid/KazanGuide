@@ -17,7 +17,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: TripleAppBar(
       context,
-      title: "Tri",
+      title: "Baru",
       textStyle: context.textTheme.bodyLarge?.copyWith(
         color:
             Theme.of(context).colorScheme.brightness == Brightness.light
@@ -29,9 +29,9 @@ class MainScreen extends StatelessWidget {
     ),
     body: BlocProvider<MainBloc>(
       create:
-          (context) => MainBloc(
-            routesRepository: Dependencies.of(context).routesRepository,
-          )..add(MainEventLoad()),
+          (context) =>
+              MainBloc(routesRepository: Dependencies.of(context).routesRepository)
+                ..add(MainEventLoad()),
       child: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
           if (state is MainLoadingState) {
@@ -121,15 +121,11 @@ class _Item extends StatelessWidget {
             children: [
               Container(
                 width: double.infinity,
-                color: AppColors.red,
+                color: AppColors.green,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 2,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                   child: Align(
-                    alignment:
-                        isExpanded ? Alignment.center : Alignment.topLeft,
+                    alignment: isExpanded ? Alignment.center : Alignment.topLeft,
                     child: Text(
                       route.routeName,
                       style: const TextStyle(
@@ -165,15 +161,14 @@ class _Item extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 12,
-                                    right: 6,
-                                  ),
+                                  padding: const EdgeInsets.only(left: 12, right: 6),
                                   child: Text(
                                     route.routeDescription,
                                     maxLines: 4,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 24),
+                                    style: const TextStyle(
+                                      fontSize: 24,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -189,14 +184,11 @@ class _Item extends StatelessWidget {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                     SizedBox(width: 8),
-                                    Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.white,
-                                    ),
+                                    Icon(Icons.arrow_forward, color: Colors.white),
                                   ],
                                 ),
                               ),

@@ -57,7 +57,7 @@ class _PointFullDetailsScreenState extends State<PointFullDetailsScreen> {
                 if (e.startsWith('quote:')) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 4, top: 8, bottom: 8),
-                    child: Text(
+                    child: SelectableText(
                       e.substring(6),
                       style: context.textTheme.bodyLarge?.copyWith(
                         fontStyle: FontStyle.italic,
@@ -74,7 +74,7 @@ class _PointFullDetailsScreenState extends State<PointFullDetailsScreen> {
                       top: 16,
                       bottom: 16,
                     ),
-                    child: Text(
+                    child: SelectableText(
                       e.substring(7),
                       textAlign: TextAlign.start,
                       style: context.textTheme.bodyLarge?.copyWith(
@@ -84,7 +84,22 @@ class _PointFullDetailsScreenState extends State<PointFullDetailsScreen> {
                   );
                 }
 
-                return Text(
+                if (e.startsWith('padding:')) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: SelectableText(
+                      e.substring(8),
+                      textAlign: TextAlign.start,
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        fontSize: 18,
+                      ),
+                    ),
+                  );
+                }
+
+                if (e.isEmpty) return const SizedBox();
+
+                return SelectableText(
                   e,
                   textAlign: TextAlign.justify,
                   style: context.textTheme.bodyLarge?.copyWith(

@@ -46,7 +46,7 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
               photos: _route.routeImages.map((e) => 'assets/images/$e').toList(),
             ),
             const SizedBox(height: 16),
-            Text(
+            SelectableText(
               _route.routeDescription,
               textAlign: TextAlign.justify,
               style: context.textTheme.bodyLarge?.copyWith(fontSize: 18),

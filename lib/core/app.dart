@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kazan_guide/core/navigation/go_router.dart';
@@ -14,6 +16,8 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
     routerConfig: router,
+    title: 'Baru',
+    scrollBehavior: const AppScrollBehavior(),
     theme: ThemeData(
       brightness: Brightness.light,
       scaffoldBackgroundColor: Colors.white,
@@ -26,6 +30,7 @@ class _AppState extends State<App> {
           context,
         ).textTheme.copyWith(bodyLarge: const TextStyle(color: Colors.black)),
       ),
+      textSelectionTheme: TextSelectionThemeData(selectionColor: Colors.grey.shade300),
     ),
     darkTheme: ThemeData(
       brightness: Brightness.dark,
@@ -43,4 +48,14 @@ class _AppState extends State<App> {
     themeMode: ThemeMode.system,
     debugShowCheckedModeBanner: false,
   );
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  const AppScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
