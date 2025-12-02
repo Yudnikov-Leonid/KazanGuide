@@ -10,6 +10,8 @@ class TripleAppBar extends AppBar {
     TextStyle? textStyle,
     super.key,
   }) : super(
+         surfaceTintColor: Colors.white,
+         shadowColor: Colors.black.withAlpha(100),
          leading: InkWell(
            onTap: leadingFunction,
            child: Container(

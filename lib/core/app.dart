@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kazan_guide/core/navigation/app_navigator.dart';
-import 'package:kazan_guide/core/navigation/pages.dart';
+import 'package:kazan_guide/core/navigation/go_router.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
 
 class App extends StatefulWidget {
@@ -13,7 +12,8 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(BuildContext context) => MaterialApp.router(
+    routerConfig: router,
     theme: ThemeData(
       brightness: Brightness.light,
       scaffoldBackgroundColor: Colors.white,
@@ -42,6 +42,5 @@ class _AppState extends State<App> {
     ),
     themeMode: ThemeMode.system,
     debugShowCheckedModeBanner: false,
-    builder: (context, _) => const AppNavigator(initialState: [MainPage()]),
   );
 }

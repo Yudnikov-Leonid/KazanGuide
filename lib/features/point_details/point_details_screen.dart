@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
-import 'package:kazan_guide/core/navigation/app_navigator.dart';
-import 'package:kazan_guide/core/navigation/pages.dart';
+import 'package:kazan_guide/core/di/dependencies.dart';
+import 'package:kazan_guide/core/navigation/app_routes.dart';
 import 'package:kazan_guide/core/presentation/context_expentions.dart';
 import 'package:kazan_guide/core/presentation/photo_view.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 import 'package:kazan_guide/features/point_details/audio_widget.dart';
 
-class PointDetailsScreen extends StatelessWidget {
-  const PointDetailsScreen({required this.point, super.key});
+class PointDetailsScreen extends StatefulWidget {
+  const PointDetailsScreen({required this.pointId, super.key});
 
-  final RouteSinglePointData point;
+  final String pointId;
+
+  @override
+  State<PointDetailsScreen> createState() => _PointDetailsScreenState();
+}
+
+class _PointDetailsScreenState extends State<PointDetailsScreen> {
+  late final RouteSinglePointData _point;
+
+  @override
+  void initState() {
+    _point = Dependencies.of(
+      context,
+    ).routesRepository.getSinglePointById(widget.pointId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: TripleAppBar(
       context,
-      title: point.pointName,
+      title: _point.pointName,
       leadingFunction: () {
-        AppNavigator.pop(context);
+        context.pop();
       },
     ),
     body: Padding(
@@ -28,19 +44,19 @@ class PointDetailsScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 20, width: double.infinity),
             PhotosView(
-              photos: point.images.map((e) => 'assets/images/$e').toList(),
+              photos: _point.images.map((e) => 'assets/images/$e').toList(),
             ),
             const SizedBox(height: 16),
-            if (point.audioRu != null) ...[
-              AudioWidget(assetSource: 'audio/${point.audioRu}', name: 'RUS'),
+            if (_point.audioRu != null) ...[
+              AudioWidget(assetSource: 'audio/${_point.audioRu}', name: 'RUS'),
               const SizedBox(height: 16),
             ],
-            if (point.audioTat != null) ...[
-              AudioWidget(assetSource: 'audio/${point.audioTat}', name: 'TAT'),
+            if (_point.audioTat != null) ...[
+              AudioWidget(assetSource: 'audio/${_point.audioTat}', name: 'TAT'),
               const SizedBox(height: 16),
             ],
             Text(
-              point.shortDescription,
+              _point.shortDescription,
               textAlign: TextAlign.justify,
               style: context.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
@@ -49,10 +65,13 @@ class PointDetailsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            if (point.fullDescription.isNotEmpty)
+            if (_point.fullDescription.isNotEmpty)
               TextButton(
                 onPressed: () {
-                  AppNavigator.push(context, PointFullDetailsPage(point));
+                  context.pushNamed(
+                    AppRoutes.pointFullDetails,
+                    queryParameters: {'id': _point.id},
+                  );
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.transparent,

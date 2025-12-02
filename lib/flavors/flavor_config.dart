@@ -2,14 +2,14 @@ enum Flavor { dev, release }
 
 class FlavorConfig {
   final Flavor flavor;
-  final String name;
+
 
   static FlavorConfig? _instance;
 
-  factory FlavorConfig({required Flavor flavor, required String name}) =>
-      _instance ??= FlavorConfig._(flavor: flavor, name: name);
+  factory FlavorConfig({required Flavor flavor}) =>
+      _instance ??= FlavorConfig._(flavor: flavor);
 
-  FlavorConfig._({required this.flavor, required this.name});
+  FlavorConfig._({required this.flavor});
 
   static FlavorConfig get instance {
     if (_instance == null) {

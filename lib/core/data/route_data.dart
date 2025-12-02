@@ -1,6 +1,8 @@
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
-class RouteData {
+class RouteData extends GoRouteData {
+  final String id;
   final String routeName;
   final String routeDescription;
   final String routeImage;
@@ -8,6 +10,7 @@ class RouteData {
   final List<RoutePointData> points;
 
   RouteData({
+    required this.id,
     required this.routeName,
     required this.routeDescription,
     required this.routeImage,
@@ -16,6 +19,7 @@ class RouteData {
   });
 
   factory RouteData.fromJson(Map<String, dynamic> json) => RouteData(
+    id: json['id'],
     routeName: json['route_name'],
     routeDescription: json['route_description'],
     routeImage: json['route_image'],
@@ -28,9 +32,18 @@ class RouteData {
             .map((e) => RoutePointData.fromJson(e))
             .toList(),
   );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'routeName': routeName,
+    'routeDescription': routeDescription,
+    'routeImage': routeImage,
+    'routeImages': routeImages,
+    'points': points.map((p) => p.toJson()),
+  };
 }
 
-abstract class RoutePointData {
+abstract class RoutePointData extends GoRouteData {
   final LatLng latLng;
 
   double get lat => latLng.latitude;
@@ -46,9 +59,12 @@ abstract class RoutePointData {
       return RouteMultiPointData.fromJson(json);
     }
   }
+
+  Map<String, dynamic> toJson();
 }
 
 class RouteSinglePointData extends RoutePointData {
+  final String id;
   final String pointName;
   final String shortDescription;
   final String fullDescription;
@@ -57,6 +73,7 @@ class RouteSinglePointData extends RoutePointData {
   final List<String> images;
 
   RouteSinglePointData({
+    required this.id,
     required this.pointName,
     required super.latLng,
     required this.shortDescription,
@@ -76,6 +93,7 @@ class RouteSinglePointData extends RoutePointData {
     Map<String, dynamic> json,
     LatLng latLng,
   ) => RouteSinglePointData(
+    id: json['id'],
     pointName: json['name'],
     latLng: latLng,
     shortDescription: json['short_description'],
@@ -84,6 +102,19 @@ class RouteSinglePointData extends RoutePointData {
     audioTat: json['audio_tat'],
     images: (json['images'] as List<dynamic>).map((e) => e.toString()).toList(),
   );
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': pointName,
+    'lat': lat,
+    'long': long,
+    'short_description': shortDescription,
+    'fullDescription': fullDescription,
+    'audio_ru': audioRu,
+    'audio_tat': audioTat,
+    'images': images,
+  };
 }
 
 class RouteMultiPointData extends RoutePointData {
@@ -100,5 +131,16 @@ class RouteMultiPointData extends RoutePointData {
               .map((e) => RouteSinglePointData.fromJsonWithLatLng(e, latLng))
               .toList(),
     );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    if (points.isEmpty) return {};
+
+    return {
+      'lat': points.first.lat,
+      'long': points.first.long,
+      'points': points.map((p) => p.toJson()),
+    };
   }
 }

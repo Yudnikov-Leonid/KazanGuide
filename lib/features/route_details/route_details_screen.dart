@@ -1,25 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kazan_guide/core/data/route_data.dart';
-import 'package:kazan_guide/core/navigation/app_navigator.dart';
-import 'package:kazan_guide/core/navigation/pages.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kazan_guide/core/data/route_data.dart' as route_data;
+import 'package:kazan_guide/core/di/dependencies.dart';
+import 'package:kazan_guide/core/navigation/app_routes.dart';
 import 'package:kazan_guide/core/presentation/KButton.dart';
 import 'package:kazan_guide/core/presentation/context_expentions.dart';
 import 'package:kazan_guide/core/presentation/photo_view.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 
-class RouteDetailsScreen extends StatelessWidget {
-  const RouteDetailsScreen({required this.route, super.key});
+class RouteDetailsScreen extends StatefulWidget {
+  const RouteDetailsScreen({required this.routeId, super.key});
 
-  final RouteData route;
+  final String routeId;
+
+  @override
+  State<RouteDetailsScreen> createState() => _RouteDetailsScreenState();
+}
+
+class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
+  late final route_data.RouteData _route;
+
+  @override
+  void initState() {
+    _route = Dependencies.of(context).routesRepository.getRouteById(widget.routeId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: TripleAppBar(
       context,
-      title: route.routeName,
+      title: _route.routeName,
       leadingFunction: () {
-        AppNavigator.pop(context);
+        context.pop(context);
       },
     ),
     body: Padding(
@@ -29,11 +43,11 @@ class RouteDetailsScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 20, width: double.infinity),
             PhotosView(
-              photos: route.routeImages.map((e) => 'assets/images/$e').toList(),
+              photos: _route.routeImages.map((e) => 'assets/images/$e').toList(),
             ),
             const SizedBox(height: 16),
             Text(
-              route.routeDescription,
+              _route.routeDescription,
               textAlign: TextAlign.justify,
               style: context.textTheme.bodyLarge?.copyWith(fontSize: 18),
             ),
@@ -42,7 +56,7 @@ class RouteDetailsScreen extends StatelessWidget {
               onPressed: () {
                 HapticFeedback.heavyImpact();
 
-                AppNavigator.push(context, MapPage(route));
+                context.pushNamed(AppRoutes.map, queryParameters: {'id': _route.id});
               },
               child: const SizedBox(
                 width: 100,

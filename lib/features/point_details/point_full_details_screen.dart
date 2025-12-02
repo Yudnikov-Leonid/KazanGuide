@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
-import 'package:kazan_guide/core/navigation/app_navigator.dart';
+import 'package:kazan_guide/core/di/dependencies.dart';
 import 'package:kazan_guide/core/presentation/context_expentions.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
 
-class PointFullDetailsScreen extends StatelessWidget {
-  const PointFullDetailsScreen({required this.point, super.key});
+class PointFullDetailsScreen extends StatefulWidget {
+  const PointFullDetailsScreen({required this.pointId, super.key});
 
-  final RouteSinglePointData point;
+  final String pointId;
+
+  @override
+  State<PointFullDetailsScreen> createState() => _PointFullDetailsScreenState();
+}
+
+class _PointFullDetailsScreenState extends State<PointFullDetailsScreen> {
+  late final RouteSinglePointData _point;
+
+  @override
+  void initState() {
+    _point = Dependencies.of(
+      context,
+    ).routesRepository.getSinglePointById(widget.pointId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final split = point.fullDescription.split('||');
+    final split = _point.fullDescription.split('||');
 
     return Scaffold(
       appBar: TripleAppBar(
         context,
-        title: point.pointName,
+        title: _point.pointName,
         leadingFunction: () {
-          AppNavigator.pop(context);
+          context.pop();
         },
       ),
       body: Padding(
@@ -76,12 +92,12 @@ class PointFullDetailsScreen extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 );
-              }).toList(),
+              }),
               const SizedBox(height: 16),
-              if (point.fullDescription.isNotEmpty)
+              if (_point.fullDescription.isNotEmpty)
                 TextButton(
                   onPressed: () {
-                    AppNavigator.pop(context);
+                    context.pop();
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.transparent,

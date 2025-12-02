@@ -25,13 +25,7 @@ class _AudioWidgetState extends State<AudioWidget> {
 
   final AudioPlayer _player = AudioPlayer();
 
-  static List<AudioPlayer> _players = [];
-
-  static Future<void> _stopAllPlayers() async {
-    for (final player in _players) {
-      await player.pause();
-    }
-  }
+  static final List<AudioPlayer> _players = [];
 
   @override
   void initState() {
@@ -96,6 +90,12 @@ class _AudioWidgetState extends State<AudioWidget> {
         /// оно установится в _playerStateSub
         await _player.pause();
       }
+    }
+  }
+
+  static Future<void> _stopAllPlayers() async {
+    for (final player in _players) {
+      await player.pause();
     }
   }
 

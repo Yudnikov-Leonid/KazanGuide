@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kazan_guide/core/data/route_data.dart' as route_data;
 import 'package:kazan_guide/core/data/route_data.dart';
 import 'package:kazan_guide/core/di/dependencies.dart';
-import 'package:kazan_guide/core/navigation/app_navigator.dart';
-import 'package:kazan_guide/core/navigation/pages.dart';
+import 'package:kazan_guide/core/navigation/app_routes.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
 import 'package:kazan_guide/core/presentation/curver_animation_w_save_listener.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
@@ -15,9 +16,9 @@ import 'package:kazan_guide/features/map/markers.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({required this.route, super.key});
+  const MapScreen({required this.routeId, super.key});
 
-  final RouteData route;
+  final String routeId;
 
   static const kazanLocation = LatLng(55.830433, 49.066082);
 
@@ -26,13 +27,18 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
+  late final route_data.RouteData _route;
   final _mapController = MapController();
   final Map<LatLng, (AnimationController, CurvedAnimationWSaveListener)>
   _animationControllers = {};
 
   @override
   void initState() {
-    final multiPoints = widget.route.points.whereType<RouteMultiPointData>();
+    _route = Dependencies.of(
+      context,
+    ).routesRepository.getRouteById(widget.routeId);
+
+    final multiPoints = _route.points.whereType<RouteMultiPointData>();
 
     for (final point in multiPoints) {
       final controller = AnimationController(
@@ -74,20 +80,18 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     backgroundColor: Colors.white,
     appBar: TripleAppBar(
       context,
-      title: widget.route.routeName,
+      title: _route.routeName,
       leadingFunction: () {
-        AppNavigator.pop(context);
+        context.pop();
       },
     ),
     body: BlocProvider(
       create:
-          (context) =>
-              MapBloc(mapRepository: Dependencies.of(context).mapRepository)
-                ..add(
-                  MapEventLoadRoutes(
-                    points: widget.route.points.map((e) => e.latLng),
-                  ),
-                ),
+          (context) => MapBloc(
+            mapRepository: Dependencies.of(context).mapRepository,
+          )..add(
+            MapEventLoadRoutes(points: _route.points.map((e) => e.latLng)),
+          ),
       child: BlocConsumer<MapBloc, MapState>(
         listener: (context, state) {
           if (state is MapStateFailed) {
@@ -97,7 +101,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           }
         },
         builder: (context, state) {
-          final points = widget.route.points;
+          final points = _route.points;
 
           return Stack(
             children: [
@@ -105,7 +109,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 mapController: _mapController,
                 options: MapOptions(
                   initialCenter:
-                      widget.route.points.isEmpty
+                      _route.points.isEmpty
                           ? MapScreen.kazanLocation
                           : LatLng(points.first.lat, points.first.long),
                   initialZoom: 14,
@@ -138,9 +142,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                               if (point is RouteSinglePointData) {
                                 return MapSingleMarker().marker(
                                   () {
-                                    AppNavigator.push(
-                                      context,
-                                      PointDetailsPage(point),
+                                    context.pushNamed(
+                                      AppRoutes.pointDetails,
+                                      queryParameters: {'id': point.id},
                                     );
                                   },
                                   point,
@@ -166,9 +170,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                     }
                                   },
                                   onTapOnElement: (index) {
-                                    AppNavigator.push(
-                                      context,
-                                      PointDetailsPage(point.points[index]),
+                                    context.pushNamed(
+                                      AppRoutes.pointDetails,
+                                      queryParameters: {
+                                        'id': point.points[index].id,
+                                      },
                                     );
                                   },
                                   point: point as RouteMultiPointData,

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:kazan_guide/core/data/routes_repository.dart';
 import 'package:kazan_guide/features/map/map_repository.dart';
 
 class Dependencies {
   late final MapRepository mapRepository;
+  late final RoutesRepository routesRepository;
 
   Widget inject({required Widget child}) =>
       InheritedDependencies(dependencies: this, child: child);

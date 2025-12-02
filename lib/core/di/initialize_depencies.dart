@@ -1,3 +1,4 @@
+import 'package:kazan_guide/core/data/routes_repository.dart';
 import 'package:kazan_guide/core/di/dependencies.dart';
 import 'package:kazan_guide/features/map/map_repository.dart';
 import 'package:kazan_guide/main.dart';
@@ -21,7 +22,9 @@ List<_InitializationStep> _steps = [
   _InitializationStep(
     name: 'Repositories',
     call: (dependencies) {
-      dependencies.mapRepository = MapRepositoryImpl();
+      dependencies
+        ..mapRepository = MapRepositoryImpl()
+        ..routesRepository = RoutesRepository();
     },
   ),
 ];

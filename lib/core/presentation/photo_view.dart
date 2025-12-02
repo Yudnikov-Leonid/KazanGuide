@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:kazan_guide/core/navigation/app_navigator.dart';
 
 class PhotosView extends StatelessWidget {
   const PhotosView({required this.photos, super.key});
@@ -43,12 +42,10 @@ class _Photo extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
     onTap: () async {
-      final navigator = AppNavigator.maybeOf(context)!..setCanPop(false);
       await showDialog(
         context: context,
         builder: (context) => PhotosPreviewDialog(assets: photos, index: index),
       );
-      navigator.setCanPop(true);
     },
     child: Container(
       height: 210,

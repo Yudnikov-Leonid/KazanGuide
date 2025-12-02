@@ -1,6 +1,6 @@
 import 'package:kazan_guide/flavors/flavor_config.dart';
-import 'package:kazan_guide/main.dart';
+import 'package:kazan_guide/main.dart' as app;
 
 void main() {
-  mainWithFlavor(Flavor.dev, "dev");
+  app.main(flavor: Flavor.dev);
 }

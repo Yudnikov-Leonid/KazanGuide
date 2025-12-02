@@ -1,26 +1,24 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kazan_guide/core/data/route_data.dart';
+import 'package:kazan_guide/core/data/routes_repository.dart';
 import 'package:kazan_guide/flavors/flavor_config.dart';
 import 'package:kazan_guide/main.dart';
 
 class MainBloc extends Bloc<MainEvent, MainState> {
-  MainBloc() : super(MainLoadingState()) {
+  final RoutesRepository _routesRepository;
+
+  MainBloc({required RoutesRepository routesRepository})
+    : _routesRepository = routesRepository,
+      super(MainLoadingState()) {
     on<MainEventLoad>(_onLoad);
   }
 
   Future<void> _onLoad(MainEventLoad event, Emitter<MainState> emit) async {
     emit(MainLoadingState());
     try {
-      final data =
-          jsonDecode(await rootBundle.loadString("assets/data/routes.json"))
-              as List<dynamic>;
+      final routes = await _routesRepository.loadRoutes();
 
-      emit(
-        MainLoadedState(data: data.map((e) => RouteData.fromJson(e)).toList()),
-      );
+      emit(MainLoadedState(data: routes));
     } catch (e, st) {
       logger.e(e, stackTrace: st);
       emit(
