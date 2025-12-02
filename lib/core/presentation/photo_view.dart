@@ -5,12 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:kazan_guide/core/presentation/context_expentions.dart';
 
 class PhotosView extends StatelessWidget {
-  const PhotosView({required this.photos, super.key});
+  const PhotosView({required this.photos, required this.padding, super.key});
 
   final List<String> photos;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
+    padding: padding,
     scrollDirection: Axis.horizontal,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -63,11 +65,7 @@ class _Photo extends StatelessWidget {
 }
 
 class PhotosPreviewDialog extends StatefulWidget {
-  const PhotosPreviewDialog({
-    required this.assets,
-    required this.index,
-    super.key,
-  });
+  const PhotosPreviewDialog({required this.assets, required this.index, super.key});
 
   final List<String> assets;
   final int index;

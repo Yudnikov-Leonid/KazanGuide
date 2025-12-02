@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kazan_guide/core/navigation/go_router.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
 
@@ -25,12 +24,13 @@ class _AppState extends State<App> {
         surfaceTintColor: AppColors.green,
         backgroundColor: Colors.white,
       ),
-      textTheme: GoogleFonts.montserratTextTheme(
-        Theme.of(
-          context,
-        ).textTheme.copyWith(bodyLarge: const TextStyle(color: Colors.black)),
+      fontFamily: 'Montserrat',
+      textTheme: Theme.of(
+        context,
+      ).textTheme.copyWith(bodyLarge: const TextStyle(color: Colors.black)),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: Colors.grey.shade300,
       ),
-      textSelectionTheme: TextSelectionThemeData(selectionColor: Colors.grey.shade300),
     ),
     darkTheme: ThemeData(
       brightness: Brightness.dark,
@@ -39,11 +39,10 @@ class _AppState extends State<App> {
         surfaceTintColor: AppColors.green,
         backgroundColor: Colors.black,
       ),
-      textTheme: GoogleFonts.montserratTextTheme(
-        Theme.of(
-          context,
-        ).textTheme.copyWith(bodyLarge: const TextStyle(color: Colors.white)),
-      ),
+      fontFamily: 'Montserrat',
+      textTheme: Theme.of(
+        context,
+      ).textTheme.copyWith(bodyLarge: const TextStyle(color: Colors.white)),
     ),
     themeMode: ThemeMode.system,
     debugShowCheckedModeBanner: false,

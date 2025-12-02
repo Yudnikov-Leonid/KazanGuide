@@ -5,6 +5,7 @@ import 'package:kazan_guide/core/data/route_data.dart' as route_data;
 import 'package:kazan_guide/core/di/dependencies.dart';
 import 'package:kazan_guide/core/navigation/app_routes.dart';
 import 'package:kazan_guide/core/presentation/KButton.dart';
+import 'package:kazan_guide/core/presentation/constants.dart';
 import 'package:kazan_guide/core/presentation/context_expentions.dart';
 import 'package:kazan_guide/core/presentation/photo_view.dart';
 import 'package:kazan_guide/core/presentation/triple_app_bar.dart';
@@ -28,49 +29,73 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: TripleAppBar(
-      context,
-      title: _route.routeName,
-      leadingFunction: () {
-        context.pop(context);
-      },
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(8),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20, width: double.infinity),
-            PhotosView(
-              photos: _route.routeImages.map((e) => 'assets/images/$e').toList(),
-            ),
-            const SizedBox(height: 16),
-            SelectableText(
-              _route.routeDescription,
-              textAlign: TextAlign.justify,
-              style: context.textTheme.bodyLarge?.copyWith(fontSize: 18),
-            ),
-            const SizedBox(height: 50),
-            KButton(
-              onPressed: () {
-                HapticFeedback.heavyImpact();
+  Widget build(BuildContext context) {
+    final screenWidth = context.screenSize.width;
 
-                context.pushNamed(AppRoutes.map, queryParameters: {'id': _route.id});
-              },
-              child: const SizedBox(
-                width: 100,
-                child: Center(
-                  child: FittedBox(
-                    child: Text('Пройти', style: TextStyle(fontSize: 20)),
+    return Scaffold(
+      appBar: TripleAppBar(
+        context,
+        title: _route.routeName,
+        leadingFunction: () {
+          context.pop(context);
+        },
+      ),
+      body: Row(
+        /// singleChild row
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth:
+                  screenWidth >= Constants.maxScreenWidth
+                      ? Constants.maxScreenWidth
+                      : screenWidth,
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                children: [
+                  const SizedBox(height: 16, width: double.infinity),
+                  PhotosView(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    photos:
+                        _route.routeImages.map((e) => 'assets/images/$e').toList(),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: SelectableText(
+                      _route.routeDescription,
+                      textAlign: TextAlign.justify,
+                      style: context.textTheme.bodyLarge?.copyWith(fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  KButton(
+                    onPressed: () {
+                      HapticFeedback.heavyImpact();
+
+                      context.pushNamed(
+                        AppRoutes.map,
+                        queryParameters: {'id': _route.id},
+                      );
+                    },
+                    child: const SizedBox(
+                      width: 100,
+                      child: Center(
+                        child: FittedBox(
+                          child: Text('Пройти', style: TextStyle(fontSize: 20)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-          ],
-        ),
+          ),
+        ],
       ),
-    ),
-  );
+    );
+  }
 }

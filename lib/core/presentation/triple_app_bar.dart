@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kazan_guide/core/presentation/colors.dart';
@@ -13,7 +11,7 @@ class TripleAppBar extends AppBar {
     TextStyle? textStyle,
     super.key,
   }) : super(
-         surfaceTintColor: Colors.white,
+         surfaceTintColor: Colors.transparent,
          shadowColor: Colors.black.withAlpha(100),
          leading: InkWell(
            onTap: leadingFunction,

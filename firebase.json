@@ -1,0 +1,29 @@
+{
+  "hosting": {
+    "site": "baru-guide",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "kazanguide-d0e71",
+          "configurations": {
+            "web": "1:1056689030940:web:d0e76f34d074874a585cd9"
+          }
+        }
+      }
+    }
+  }
+}

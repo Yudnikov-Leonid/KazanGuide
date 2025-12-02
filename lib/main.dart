@@ -22,7 +22,7 @@ void main({Flavor? flavor}) {
       WidgetsFlutterBinding.ensureInitialized().deferFirstFrame();
 
       /// сейчас flavor настроен только на андроид, 25.08.2025
-      FlavorConfig(flavor: flavor!);
+      FlavorConfig(flavor: flavor ?? Flavor.release);
 
       GoRouter.optionURLReflectsImperativeAPIs = true;
       usePathUrlStrategy();

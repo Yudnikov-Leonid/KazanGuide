@@ -8,7 +8,7 @@ Future<Dependencies> initializeDependencies() async {
 
   for (final step in _steps) {
     try {
-      step.call(dependencies);
+      await step.call(dependencies);
     } catch (e, st) {
       logger.e('Error while initialization ${step.name}', stackTrace: st);
       rethrow;
@@ -25,6 +25,13 @@ List<_InitializationStep> _steps = [
       dependencies
         ..mapRepository = MapRepositoryImpl()
         ..routesRepository = RoutesRepository();
+    },
+  ),
+
+  _InitializationStep(
+    name: 'Load routes',
+    call: (dependencies) async {
+      await dependencies.routesRepository.loadRoutes();
     },
   ),
 ];

@@ -164,17 +164,16 @@ class _Item extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 12, right: 6),
                                   child: Text(
                                     route.routeDescription,
-                                    maxLines: 4,
+                                    maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 24,
+                                    style: context.textTheme.bodyLarge?.copyWith(
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ),
                               ),
                               Container(
                                 height: 30,
-                                width: double.infinity,
                                 color: AppColors.green,
                                 child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
